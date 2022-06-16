@@ -1,0 +1,7 @@
+argparse
+tabulate
+httpx
+tqdm
+unicodecsv
+requests
+colorama

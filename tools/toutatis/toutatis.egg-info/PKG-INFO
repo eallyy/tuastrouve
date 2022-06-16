@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: toutatis
+Version: 1.25
+Summary: It is a tool written to retrieve private information such as Phone Number, Mail Address, ID on Instagram accounts via API.
+Home-page: http://github.com/megadose/toutatis
+Author: megadose
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+License-File: LICENSE
+
+It is a tool written to retrieve private information such as Phone Number, Mail Address, ID on Instagram accounts via API.
+

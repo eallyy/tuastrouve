@@ -1,0 +1,260 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12 p-4 mx-auto">
+            <button type="button" class="btn btn-rounded btn-info col-lg-12 col-md-12 col-sm-12" (click)="printReport()"><span class="btn-icon-left text-info"><i class="fa fa-print color-info"></i>
+            </span>Print</button>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <!-- Case Informations -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Case Informations</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="basic-form">
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Case Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" placeholder="-" value="{{ case.getName() }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Name of Profiling User</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" placeholder="-" value="{{ case.getProfile() }}" disabled>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Email</label>
+                                        <div class="col-sm-9">
+                                            <input type="email" class="form-control" placeholder="-" value="{{ case.getEmail() }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Generic Username</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" placeholder="-" value="{{ case.getGenericUName() }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Instagram Username</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" placeholder="-" value="{{ case.getInstagramUName() }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Open Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" placeholder="-" value="{{ case.getOpenDate() }}" disabled>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Instagram Account Informations -->
+            <div class="row" *ngIf="instagramDatas">
+                <div class="col-xl-12 col-lg-12 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Instagram Account Informations</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row pb-2">
+                                <div class="col-md-6 col-lg-6 col-sm-12">
+                                    <h4 class="text-primary mb-0">{{ instagramDatas['fullName'] }}</h4>
+                                    <p>@{{ instagramDatas['username'] }} (User ID: {{ instagramDatas['userID'] }})</p>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-sm-12">
+                                    <h4 class="text-muted mb-0">{{ instagramDatas['obfuscatedEmail'] }}</h4>
+                                    <p>Email</p>
+                                </div>
+                            </div>
+                            <div class="text-center pb-4">
+                                <div class="row">
+                                    <div class="col">
+                                        <h3 class="m-b-0">{{ instagramDatas['followingCount'] }}</h3><span>Following</span>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="m-b-0">{{ instagramDatas['numberOfPosts'] }}</h3><span>Posts</span>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="m-b-0">{{ instagramDatas['numberOfTagInPosts'] }}</h3><span>Tagged Posts</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="card bg-secondary col-sm-12 col-md-6 col-lg-6 mx-auto">
+                                    <div class="card-body">
+                                        <strong>Biography: </strong><br>
+                                        {{ instagramDatas['biography'] }}
+                                    </div>
+                                    <div class="card-footer">
+                                        <strong>URL: </strong>{{ instagramDatas['externalUrl'] }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped verticle-middle table-responsive-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td>Verified Account</td>
+                                                <td>
+                                                    <i *ngIf="instagramDatas['isVerified'] == 'True'" class="fa fa-check text-success"></i>
+                                                    <i *ngIf="instagramDatas['isVerified'] == 'False'" class="fa fa-close text-danger"></i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Business Account</td>
+                                                <td>
+                                                    <i *ngIf="instagramDatas['isBusiness'] == 'True'" class="fa fa-check text-success"></i>
+                                                    <i *ngIf="instagramDatas['isBusiness'] == 'False'" class="fa fa-close text-danger"></i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Private Account</td>
+                                                <td>
+                                                    <i *ngIf="instagramDatas['isPrivate'] == 'True'" class="fa fa-check text-success"></i>
+                                                    <i *ngIf="instagramDatas['isPrivate'] == 'False'" class="fa fa-close text-danger"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Email Status -->
+            <div class="row" *ngIf="emailStatusDatas">
+                <div class="col-xl-12 col-lg-12 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Email Status</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Email Status Start -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped verticle-middle table-responsive-sm">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Website</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let emailStatusData of emailStatusDatas">
+                                            <td>{{ emailStatusData['website'] }}</td>
+                                            <td>
+                                                <span *ngIf="emailStatusData['isUsing'] == 1" class="bagde badge-rounded badge-outline-success">Using</span>
+                                                <span *ngIf="emailStatusData['isUsing'] == 0" class="bagde badge-rounded badge-outline-danger">Not Using</span>
+                                            </td>
+                                        </tr>
+    
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Email Status End -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Generic Username Informations -->
+            <div class="row" *ngIf="usernameDatas">
+                <div class="col-xl-12 col-lg-12 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Generic Username Informations</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped verticle-middle table-responsive-sm">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Website</th>
+                                            <th scope="col">Link</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let usernameData of usernameDatas">
+                                            <td scope="col">{{ usernameData['website'] }}</td>
+                                            <td scope="col"><a href="{{ usernameData['link'] }}">{{ usernameData['link'] }}</a></td>
+                                        </tr>
+    
+                                    </tbody>
+                                </table>
+                            </div>
+    
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Web Profiles (Based by username) -->
+            <div class="row" *ngIf="webProfileDatas">
+                <div class="col-xl-12 col-lg-12 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Web Profiles (Based by username)</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Web Profile Cards -->
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 mx-auto" *ngFor="let webProfileData of webProfileDatas">
+                                    <div class="card bg-secondary">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-12">
+                                                    <strong class="text-primary">Rank: </strong>{{ webProfileData['rank'] }}
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 text-right d-none d-sm-block">
+                                                    <strong class="text-primary">Type: </strong>{{ webProfileData['type'] }}
+                                                </div>
+                                                <div class="col-sm-12 d-block d-sm-none">
+                                                    <strong class="text-primary">Type: </strong>{{ webProfileData['type'] }}
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <strong class="text-primary">Title: </strong>{{ webProfileData['title'] }}
+                                            <hr>
+                                            <strong class="text-primary">Link: </strong><a href="{{ webProfileData['link'] }}">{{ webProfileData['link'] }}</a>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-12">
+                                                    <strong class="text-primary">Language: </strong>{{ webProfileData['language'] }}
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 text-right d-none d-sm-block">
+                                                    <strong class="text-primary">Country: </strong>{{ webProfileData['country'] }}
+                                                </div>
+                                                <div class="col-sm-12 d-block d-sm-none">
+                                                    <strong class="text-primary">Country: </strong>{{ webProfileData['country'] }}
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <strong class="text-primary">Text: </strong>{{ webProfileData['text'] }}
+                                        </div>
+                                        <hr>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

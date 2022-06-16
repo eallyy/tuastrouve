@@ -1,0 +1,162 @@
+<app-header></app-header>
+
+		<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+			<div class="container-fluid">
+				<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
+					<h2 class="font-w600 mb-2 mr-auto ">Dashboard</h2>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Recently Used Cases</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-responsive-md">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:80px;"><strong>#</strong></th>
+                                                <th><strong>CASE NAME</strong></th>
+                                                <th><strong>PROFILE NAME</strong></th>
+                                                <th><strong>OPENING DATE</strong></th>
+                                                <th><strong>STATUS</strong></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+											<tr *ngFor="let case of allCases; let i = index">
+                                                <td><strong>{{ i+1 }}</strong></td>
+                                                <td>{{ case.getName() }}</td>
+                                                <td>{{ case.getProfile() }}</td>
+                                                <td>{{ case.getOpenDate() }}</td>
+                                                <td><span *ngIf="case.getStatus() == 2" class="badge light badge-success">Finalized</span><span *ngIf="case.getStatus() == 1" class="badge light badge-warning">Active</span><span *ngIf="case.getStatus() == 0" class="badge light badge-danger">Deleted</span></td>
+                                                <td>
+													<div class="dropdown">
+														<button type="button" class="btn btn-info light sharp" data-toggle="dropdown" aria-expanded="false">
+															<svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
+														</button>
+														<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
+															<a *ngIf="case.getStatus() == 2" class="dropdown-item" href="report?id={{ case.getID() }}">Show Report</a>
+                                                            <a *ngIf="case.getStatus() == 1" class="dropdown-item" href="active-case?id={{ case.getID() }}">Edit</a>
+															<button *ngIf="case.getStatus() != 0" class="dropdown-item" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                                            <a *ngIf="case.getStatus() == 0" class="dropdown-item" href="#">Permatently Delete</a>
+														</div>
+														<!-- Delete Modal Start -->
+														<div *ngIf="case.getStatus() != 0" class="modal fade" id="deleteModal" aria-hidden="true" style="display: none;">
+															<div class="modal-dialog" role="document">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title">Do you want to delete the case?</h5>
+																		<button type="button" class="close" data-dismiss="modal"><span>×</span>
+																		</button>
+																	</div>
+																	<div class="modal-body">
+																		The case information given below is going to be deleted? Are you sure? This process is irreversible. Please make sure is everything ok.
+																		<hr>
+																		<strong>Case Name: </strong>{{ case.getName() }}
+																		<br>
+																		<strong>Profile: </strong>{{ case.getProfile() }}
+																		<br>
+																		<strong>Open Date: </strong>{{ case.getOpenDate() }}
+																	</div>
+																	<div class="modal-footer">
+																		<button type="button" class="btn btn-info light" data-dismiss="modal">Close</button>
+																		<a href="#?id=1"><button type="button" class="btn btn-danger">Delete</button></a>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<!-- Delete Modal End -->
+													</div>
+												</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<div class="row">
+					<div class="col-xl-4 col-xxl-6 col-lg-6">
+                        <div class="card">
+                            <div class="card-header border-0 pb-0">
+                                <h4 class="card-title">Timeline</h4>
+                            </div>
+                            <div class="card-body">
+								<div *ngIf="timelineDatas.length == 0" class="alert alert-info fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+									<strong>Info!</strong> Timeline history record not found.
+								</div>
+                                <div *ngIf="timelineDatas.length != 0" id="DZ_W_TimeLine" class="widget-timeline dz-scroll height370 ps ps--active-y">
+                                    <ul class="timeline">
+										<li *ngFor="let timeline of timelineDatas">
+												<div *ngIf="timeline['event'] == 'create'" class="timeline-badge success"></div>
+												<div *ngIf="timeline['event'] == 'delete'" class="timeline-badge danger"></div>
+												<div *ngIf="timeline['event'] == 'permatently_delete'" class="timeline-badge danger"></div>
+												<div *ngIf="timeline['event'] == 'edit'" class="timeline-badge warning"></div>
+												<div *ngIf="timeline['event'] == 'report_create'" class="timeline-badge info"></div>
+
+												<div class="timeline-panel text-muted">
+													<span>{{ timeline['time'] }}</span>
+													<h6 *ngIf="timeline['event'] == 'create'" class="mb-0">New case created <strong class="text-success">#{{ timeline['id'] }}.</strong></h6>
+													<h6 *ngIf="timeline['event'] == 'delete'" class="mb-0">Case deleted <strong class="text-danger">#{{ timeline['id'] }}.</strong></h6>
+													<h6 *ngIf="timeline['event'] == 'permatently_delete'" class="mb-0">Case permatently deleted <strong class="text-danger">#{{ timeline['id'] }}.</strong></h6>
+													<h6 *ngIf="timeline['event'] == 'edit'" class="mb-0">Case edited <strong class="text-warning">#{{ timeline['id'] }}.</strong></h6>
+													<h6 *ngIf="timeline['event'] == 'report_create'" class="mb-0">Case report created <strong class="text-info">#{{ timeline['id'] }}.</strong></h6>
+
+												</div>
+                                        </li>
+
+                                    </ul>
+                                <div class="ps__rail-x" style="left: 0px; bottom: -24px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 24px; height: 370px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 14px; height: 216px;"></div></div></div>
+                            </div>
+                        </div>
+					</div>
+					<div class="col">
+						<div class="">
+							<div class="widget-stat card">
+								<div class="card-body p-4">
+									<div class="media ai-icon">
+										<span class="mr-3 bgl-primary text-primary">
+											<i class="ti-agenda"></i>
+										</span>
+										<div class="media-body">
+											<p class="mb-1">Total Cases</p>
+											<h4 class="mb-0">{{ totalCases }}</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="">
+							<div class="widget-stat card">
+								<div class="card-body p-4">
+									<div class="media ai-icon">
+										<span class="mr-3 bgl-primary text-primary">
+											<svg id="icon-customers" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+												<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+												<circle cx="12" cy="7" r="4"></circle>
+											</svg>
+										</span>
+										<div class="media-body">
+											<p class="mb-1">Total Users</p>
+											<h4 class="mb-0">{{ totalUsers }}</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+<app-footer></app-footer>
