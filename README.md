@@ -19,8 +19,6 @@
 <h3 align="center">Tu As Trouvé</h3>
 
   <p align="center">
-    Sparking Young Minds with Interactive Computer Education
-    <br />
     Spearheaded the development of a open source multi-tool adapted OSINT system, Tu As Trouvé, designed to effectively gather and analyze data from various online sources and generating reports.
     <br />
     <a href="https://github.com/eallyy/tuastrouve"><strong>Explore the docs »</strong></a>
